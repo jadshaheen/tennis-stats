@@ -19,9 +19,21 @@ Planned ETA: 9/2
 
 STEP 5: Build skeleton frontend (react?) which is capable of sending HTTP requests to the flask app.
 Planned ETA: 9/3
+COMPLETED s of 9/6 12:25 PM
 
 STEP 6: Prettify frontend to have input field and look decent.
 Planned ETA: 9/5
+
+player output should look like following:
+
+	PLAYER NAME is currently (ranked x in the world / not ranked)
+	GRAND SLAM STATS
+	grand slam | finals appearances | wins | losses
+	wimbledon  | value              | value| value
+	australian | value              | value| value
+	french open| value              | value| value
+	us open    | value              | value| value
+
 
 STEP 7: Productionize flask app and add frontend as a page on jadshaheen.com.
 Planned ETA: 9/7
