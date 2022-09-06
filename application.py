@@ -29,7 +29,9 @@ def get_player_data():
 		get_history_dataset()
 	)
 
-	return jsonify({"players": player_data})
+	resp = jsonify({"players": player_data})
+	resp.headers['Access-Control-Allow-Origin'] = '*'
+	return resp
 
 @app.route('/tournaments')
 def get_tourney_data():
