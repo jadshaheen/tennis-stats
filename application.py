@@ -6,8 +6,10 @@ import scraper
 
 from flask import Flask
 from flask import jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def hello():
@@ -29,9 +31,7 @@ def get_player_data():
 		get_history_dataset()
 	)
 
-	resp = jsonify({"players": player_data})
-	resp.headers['Access-Control-Allow-Origin'] = '*'
-	return resp
+	return jsonify({"players": player_data})
 
 @app.route('/tournaments')
 def get_tourney_data():
