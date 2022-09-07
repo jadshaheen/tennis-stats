@@ -10,7 +10,7 @@ class Player(t.NamedTuple):
 	name: str
 	age: int
 	rank: int
-	tournaments: list(Tournament)
+	tournaments: map(str, Tournament)
 	
 
 class Tournament(t.NamedTuple)
@@ -23,5 +23,7 @@ class Tournament(t.NamedTuple)
 EXAMPLE
 
 fed = Player("Roger Federer", 41, -1, [])
-
-(loop through player data)
+...
+wimbledon = Tournament("Wimbledon", 12, [...], [...])
+fed.tournaments["Wimbledon"] = wimbledon
+'''
