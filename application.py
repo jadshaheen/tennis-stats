@@ -26,7 +26,7 @@ def get_player_data():
 		)
 
 		return jsonify({"players": player_data})
-	except Exception e:
+	except Exception as e:
 		return e
  
 @app.route('/tournaments')
@@ -37,7 +37,7 @@ def get_tourney_data():
 		)
 
 		return jsonify({"tournaments": tourney_data})
-	except Exception e:
+	except Exception as e:
 		return e
 
 @app.route('/years')
@@ -48,7 +48,7 @@ def get_years_data():
 		)
 
 		return jsonify({"years": years_data})
-	except Exception e:
+	except Exception as e:
 		return e 
 
 @app.route('/rankings')
