@@ -20,7 +20,7 @@ def hello():
 
 @app.route('/players')
 def get_player_data():
-	player_name = request.args
+	player_name = request.args.to_dict().get('name')
 	player_data = scraper.construct_players_map()
 
 	return jsonify({player_name}: player_data[player_name])
@@ -41,9 +41,9 @@ def get_years_data():
 
 	return jsonify({"years": years_data})
 
-@app.route('/rankings')
-def get_rankings_data():
-	return jsonify({"rankings": get_rankings_dataset()})
+# @app.route('/rankings')
+# def get_rankings_data():
+# 	return jsonify({"rankings": get_rankings_dataset()})
 
 if __name__ == '__main__':
 	app.run(debug=True)
