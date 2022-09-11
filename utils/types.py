@@ -6,7 +6,7 @@ import collections
 import dataclasses
 import typing as t
 
-class Player:
+class Player(dict):
 	def __init__(self):
 		self.name = None
 		self.age = None
@@ -14,7 +14,7 @@ class Player:
 		self.tournaments = dict()
 	
 
-class PlayerTournament:
+class PlayerTournament(dict):
 	'''
 	A representation of the Grand Slam Final results for a particular
 	tournament for the player at self.player_name.
@@ -22,7 +22,7 @@ class PlayerTournament:
 	def __init__(self, name, player_name):
 		self.name = name
 		self.player_name = player_name
-		self.finals_appearnaces = 0
+		self.finals_appearances = 0
 		self.years_won = list()
 		self.years_runner_up = list()
 
