@@ -23,7 +23,7 @@ def get_player_data():
 	player_name = request.args.to_dict().get('name')
 	player_data = scraper.construct_players_map()
 
-	return jsonify({player_name}: player_data[player_name])
+	return jsonify({player_name: player_data[player_name]})
  
 @app.route('/tournaments')
 def get_tourney_data():
