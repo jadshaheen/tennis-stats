@@ -6,18 +6,25 @@ import collections
 import dataclasses
 import typing as t
 
-class Player(t.NamedTuple):
-	name: str
-	age: int
-	rank: int
-	tournaments: map(str, Tournament)
+class Player:
+	def __init__(self):
+		self.name = None
+		self.age = None
+		self.rank = None
+		self.tournaments = dict()
 	
 
-class Tournament(t.NamedTuple)
-	name: str
-	finals_appearances: int
-	years_won: list(int)
-	years_runner_up: list(int)
+class PlayerTournament:
+	'''
+	A representation of the Grand Slam Final results for a particular
+	tournament for the player at self.player_name.
+	'''
+	def __init__(self, name, player_name):
+		self.name = name
+		self.player_name = player_name
+		self.finals_appearnaces = 0
+		self.years_won = list()
+		self.years_runner_up = list()
 
 '''
 EXAMPLE

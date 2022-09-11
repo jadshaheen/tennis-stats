@@ -4,6 +4,7 @@ The `scraper` module contains methods for retrieving and parsing HTML data from 
 
 import functools
 import requests
+from utils import types
 
 from bs4 import BeautifulSoup
 from collections import defaultdict
@@ -31,28 +32,33 @@ def process_table(webpage):
 # @functools.lru_cache(maxsize=1)
 def construct_players_map():
 	"""
-	Returns a mapping of player name to grand slam year and result data for slams
-	in which the player appeared in a final.
+	Returns a mapping of player name to a types.Player object, which stores rank and tournament result information.
 
-	The map is of the form: {PLAYER: {TOURNAMENT: {"wins": [YEAR,...], "runner-ups": [YEAR,...]},...},...}
-	TODO: Convert this structure to map(String, Player): {"playername": Player(name, age, list(Tournament))}
+	The map is of the form: {"playername": types.Player}
 
-	Each row in the data has the structure: [YEAR, TOURNAMENT, WINNER, RUNNER-UP]
+	Each row in the history data has the structure: [YEAR, TOURNAMENT, WINNER, RUNNER-UP]
+	Each row in the rankings data has the structure: [RANK, DELTA, PLAYER, POINTS, AGE]
 	"""
 	history_html = get_html_data(HISTORY_SOURCE)
 	history_data = process_table(history_html)
 
-	rnakings_html = get_html_data(RANKINGS_SOURCE)
-	rankings_data = process_table(rnakings_html)
+	rankings_html = get_html_data(RANKINGS_SOURCE)
+	rankings_data = process_table(rankings_html)
 
-	player_map = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+	player_map = defaultdict(lambda: types.Player())
 
 	# The first two rows are headings, so we ignore them.
 	for row in history_data[2:]:
 		year, tourney, winner, runner = row
-		# TODO: Update this processing to use Player objects (from types.py)
-		player_map[winner][tourney]["wins"].append(year)
-		player_map[runner][tourney]["runner-ups"].append(year)
+		winning_player = player_map[winner]
+		running_player = player_map[runner]
+		winning_player.name = winner
+		running_player.name = runner
+		winning_player = populate_tournament_win(winning_player, year, tourney)
+		running_player = populate_tournament_loss(running_player, year, tourney)
+
+	# go through rankings data and IF the player already exists in the player_map,
+	# populate that players Age and Rank data.
 
 	return player_map
 
@@ -95,6 +101,33 @@ def construct_years_map():
 		year_map[year][tourney] = (winner, runner)
 
 	return year_map
+
+def populate_tournament_win(player, year, tournament_name):
+
+	if not player.tournaments.get(tournament_name):
+		player_tourney = types.PlayerTournament(
+			tournament_name,
+			player.name,
+		)
+		player.tournaments[tournament_name] = player_tourney
+	tourney = player.tournaments.get(tournament_name)
+	tourney.finals_appearances += 1
+	tourney.years_won.append(year)
+	return tourney
+
+def populate_tournament_loss(player, year, tournament_name):
+
+	if not player.tournaments.get(tournament_name):
+		player_tourney = types.PlayerTournament(
+			tournament_name,
+			player.name,
+		)
+		player.tournaments[tournament_name] = player_tourney
+	tourney = player.tournaments.get(tournament_name)
+	tourney.finals_appearances += 1
+	tourney.years_runner_up.append(year)
+	return player
+
 
 def main():
 	players_data = construct_players_map()

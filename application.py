@@ -20,36 +20,26 @@ def hello():
 
 @app.route('/players')
 def get_player_data():
-	try:
-		player_data = scraper.process_players_history(
-			get_history_dataset()
-		)
+	player_name = request.args
+	player_data = scraper.construct_players_map()
 
-		return jsonify({"players": player_data})
-	except Exception as e:
-		return e
+	return jsonify({player_name}: player_data[player_name])
  
 @app.route('/tournaments')
 def get_tourney_data():
-	try:
-		tourney_data = scraper.process_tournament_history(
-			get_history_dataset()
-		)
+	tourney_data = scraper.process_tournament_history(
+		get_history_dataset()
+	)
 
-		return jsonify({"tournaments": tourney_data})
-	except Exception as e:
-		return e
+	return jsonify({"tournaments": tourney_data})
 
 @app.route('/years')
 def get_years_data():
-	try:
-		years_data = scraper.process_years_history(
-			get_history_dataset()
-		)
+	years_data = scraper.process_years_history(
+		get_history_dataset()
+	)
 
-		return jsonify({"years": years_data})
-	except Exception as e:
-		return e 
+	return jsonify({"years": years_data})
 
 @app.route('/rankings')
 def get_rankings_data():
