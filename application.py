@@ -5,7 +5,9 @@ This module creates the application and defines the routes.
 """
 
 import scraper
+from utils import types
 
+import json`
 from flask import Flask
 from flask import jsonify
 from flask import request
@@ -21,23 +23,22 @@ def hello():
 @app.route('/players')
 def get_player_data():
 	player_name = request.args.to_dict().get('name')
+	if not player_name:
+		return "ERROR: Pass player name as a query param to retrieve data (eg 'players?name=Roger%20Federer')"
+
 	player_data = scraper.construct_players_map()
 
-	return jsonify({player_name: player_data[player_name]})
+	return json.dumps(player_data[player_name.lower()], cls=types.TypeEncoder)
  
 @app.route('/tournaments')
 def get_tourney_data():
-	tourney_data = scraper.process_tournament_history(
-		get_history_dataset()
-	)
+	tourney_data = scraper.construct_tournament_map()
 
 	return jsonify({"tournaments": tourney_data})
 
 @app.route('/years')
 def get_years_data():
-	years_data = scraper.process_years_history(
-		get_history_dataset()
-	)
+	years_data = scraper.construct_years_map()
 
 	return jsonify({"years": years_data})
 

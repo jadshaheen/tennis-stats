@@ -45,20 +45,26 @@ def construct_players_map():
 	rankings_html = get_html_data(RANKINGS_SOURCE)
 	rankings_data = process_table(rankings_html)
 
-	player_map = defaultdict(lambda: types.Player())
+	player_map = dict()
 
 	# The first two rows are headings, so we ignore them.
 	for row in history_data[2:]:
 		year, tourney, winner, runner = row
-		winning_player = player_map[winner]
-		running_player = player_map[runner]
-		winning_player.name = winner
-		running_player.name = runner
+		tourney, winner, runner = tourney.lower(), winner.lower(), runner.lower()
+		winning_player = player_map.get(winner) or types.Player(winner)
+		running_player = player_map.get(runner) or types.Player(runner)
 		winning_player = populate_tournament_win(winning_player, year, tourney)
 		running_player = populate_tournament_loss(running_player, year, tourney)
+		player_map[winner] = winning_player
+		player_map[runner] = running_player
 
 	# go through rankings data and IF the player already exists in the player_map,
 	# populate that players Age and Rank data.
+	for row in rankings_data[1:]:
+		rank, delta, player, points, age = row
+		if player_map.get(player):
+			player_map[player].age = age
+			player_map[player].rank = rank
 
 	return player_map
 
@@ -110,10 +116,12 @@ def populate_tournament_win(player, year, tournament_name):
 			player.name,
 		)
 		player.tournaments[tournament_name] = player_tourney
-	tourney = player.tournaments.get(tournament_name)
+	tourney = player.tournaments[tournament_name]
 	tourney.finals_appearances += 1
 	tourney.years_won.append(year)
-	return tourney
+	tourney = player.tournaments.get(tournament_name)
+	player.tournaments[tournament_name] = tourney
+	return player
 
 def populate_tournament_loss(player, year, tournament_name):
 
