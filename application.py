@@ -7,7 +7,7 @@ This module creates the application and defines the routes.
 import scraper
 from utils import types
 
-import json`
+import json
 from flask import Flask
 from flask import jsonify
 from flask import request
