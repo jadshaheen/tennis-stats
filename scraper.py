@@ -63,9 +63,10 @@ def construct_players_map():
 	for row in rankings_data[1:]:
 		rank, delta, player, points, age = row
 		player = player.lower()
-		if player_map.get(player):
-			player_map[player].age = age
-			player_map[player].rank = rank
+		if not player_map.get(player):
+			player_map[player] = types.Player(player)
+		player_map[player].age = age
+		player_map[player].rank = rank
 
 	return player_map
 
