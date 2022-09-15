@@ -47,6 +47,7 @@ def construct_players_map():
 
 	player_map = dict()
 
+	# TODO: Migrate to logic.py module
 	# The first two rows are headings, so we ignore them.
 	for row in history_data[2:]:
 		year, tourney, winner, runner = row
@@ -58,6 +59,7 @@ def construct_players_map():
 		player_map[winner] = winning_player
 		player_map[runner] = running_player
 
+	# TODO: Migrate to logic.py module
 	# go through rankings data and IF the player already exists in the player_map,
 	# populate that players Age and Rank data.
 	for row in rankings_data[1:]:
@@ -110,6 +112,7 @@ def construct_years_map():
 
 	return year_map
 
+# TODO: Migrate to logic.py module
 def populate_tournament_win(player, year, tournament_name):
 
 	if not player.tournaments.get(tournament_name):
@@ -125,6 +128,7 @@ def populate_tournament_win(player, year, tournament_name):
 	player.tournaments[tournament_name] = tourney
 	return player
 
+# TODO: Migrate to logic.py module
 def populate_tournament_loss(player, year, tournament_name):
 
 	if not player.tournaments.get(tournament_name):

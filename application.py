@@ -4,6 +4,7 @@ The flask app.
 This module creates the application and defines the routes.
 """
 
+import logic
 import scraper
 from utils import types
 
@@ -19,6 +20,13 @@ CORS(app)
 @app.route('/')
 def hello():
 	return 'Hello, World!'
+
+@app.route('/search')
+def get_search_results():
+	search_query =  request.args.to_dict().get('query')
+	query_type, search_result = logic.retrieve_search_results(search_query)
+
+	return json.dumps({query_type: search_result}, cls=types.TypeEncoder)
 
 @app.route('/players')
 def get_player_data():
