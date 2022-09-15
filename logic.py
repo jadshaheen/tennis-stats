@@ -46,7 +46,7 @@ def sanitize_input(input):
 		return PLAYER_TYPE
 
 def match_tournament(tournament_name):
-	tournament_patterns_map = {r'u[.]?s[.]? open': 'u.s. open', r'wimbledon': 'wimbledon', r'french open|roland garros': 'french open', r'aus(tralian|sie) open'}
+	tournament_patterns_map = {r'u[.]?s[.]? open': 'u.s. open', r'wimbledon': 'wimbledon', r'french open|roland garros': 'french open', r'aus(tralian|sie) open': 'australian open'}
 	for pattern in tournament_patterns_map.keys():
 		if re.fullmatch(pattern, tournament_name):
 			return tournament_patterns_map[pattern]
