@@ -11,7 +11,7 @@ YEAR_TYPE = "year"
 
 def retrieve_search_results(search_query):
 
-	input_type = sanitize_input(search_query)
+	input_type = sanitize_input(search_query.lower())
 	if input_type == PLAYER_TYPE:
 		return PLAYER_TYPE, scraper.construct_players_map()[search_query.lower()]
 	elif input_type == TOURNAMENT_TYPE:
