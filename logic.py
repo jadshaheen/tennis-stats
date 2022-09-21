@@ -13,11 +13,11 @@ def retrieve_search_results(search_query):
 
 	input_type = sanitize_input(search_query)
 	if input_type == PLAYER_TYPE:
-		return scraper.construct_players_map()[search_query.lower()]
+		return PLAYER_TYPE, scraper.construct_players_map()[search_query.lower()]
 	elif input_type == TOURNAMENT_TYPE:
-		return scraper.construct_tournament_map()[match_tournament(search_query.lower())]
+		return TOURNAMENT_TYPE, scraper.construct_tournament_map()[match_tournament(search_query.lower())]
 	elif input_type == YEAR_TYPE:
-		return scraper.construct_years_map()[search_query]
+		return YEAR_TYPE, scraper.construct_years_map()[search_query]
 	else:
 		return "Input not understood. Please try again."
 

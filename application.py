@@ -24,9 +24,9 @@ def hello():
 @app.route('/search')
 def get_search_results():
 	search_query =  request.args.to_dict().get('query')
-	search_result = logic.retrieve_search_results(search_query)
+	query_type, search_result = logic.retrieve_search_results(search_query)
 
-	return json.dumps(search_result, cls=types.TypeEncoder)
+	return json.dumps({query_type: search_result}, cls=types.TypeEncoder)
 
 @app.route('/players')
 def get_player_data():
