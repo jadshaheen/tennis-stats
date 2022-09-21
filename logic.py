@@ -39,7 +39,7 @@ def retrieve_search_results(search_query):
 # method to figure out input type (player name, tournament name or year)
 # and normalize the input. Used to determine which logic flow to follow.
 def sanitize_input(input):
-	if re.fullmatch(r'ranking[s]?', input):
+	if re.fullmatch(r'rank(ing[s]?)?', input):
 		return RANKINGS_TYPE
 	elif match_tournament(input):
 		return TOURNAMENT_TYPE
