@@ -112,6 +112,16 @@ def construct_years_map():
 
 	return year_map
 
+def get_rankings_table():
+	"""
+	Return the current rankings as a processed table.
+	"""
+	rankings_html = get_html_data(RANKINGS_SOURCE)
+	rankings_data = process_table(rankings_html)
+
+	return rankings_data[1:]
+
+
 # TODO: Migrate to logic.py module
 def populate_tournament_win(player, year, tournament_name):
 

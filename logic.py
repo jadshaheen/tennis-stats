@@ -8,6 +8,7 @@ import scraper
 PLAYER_TYPE = "player"
 TOURNAMENT_TYPE = "tournament"
 YEAR_TYPE = "year"
+RANKINGS_TYPE = "rankings"
 
 def retrieve_search_results(search_query):
 
@@ -18,6 +19,8 @@ def retrieve_search_results(search_query):
 		return TOURNAMENT_TYPE, scraper.construct_tournament_map()[match_tournament(search_query.lower())]
 	elif input_type == YEAR_TYPE:
 		return YEAR_TYPE, scraper.construct_years_map()[search_query]
+	elif input_type == RANKINGS_TYPE:
+		return RANKINGS_TYPE, scraper.get_rankings_table()
 	else:
 		return "Input not understood. Please try again."
 
@@ -36,7 +39,9 @@ def retrieve_search_results(search_query):
 # method to figure out input type (player name, tournament name or year)
 # and normalize the input. Used to determine which logic flow to follow.
 def sanitize_input(input):
-	if match_tournament(input):
+	if re.fullmatch(r'ranking[s]?', input):
+		return RANKINGS_TYPE
+	elif match_tournament(input):
 		return TOURNAMENT_TYPE
 	elif input.isnumeric():
 		return YEAR_TYPE
