@@ -26,7 +26,7 @@ def get_search_results():
 	search_query =  request.args.to_dict().get('query')
 	search_result = logic.retrieve_search_results(search_query)
 
-	return json.dumps({search_query: search_result}, cls=types.TypeEncoder)
+	return json.dumps(search_result, cls=types.TypeEncoder)
 
 @app.route('/players')
 def get_player_data():
