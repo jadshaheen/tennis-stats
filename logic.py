@@ -13,11 +13,11 @@ def retrieve_search_results(search_query):
 
 	input_type = sanitize_input(search_query)
 	if input_type == PLAYER_TYPE:
-		return PLAYER_TYPE, scraper.construct_players_map()[search_query.lower()]
+		return scraper.construct_players_map()[search_query.lower()]
 	elif input_type == TOURNAMENT_TYPE:
-		return TOURNAMENT_TYPE, scraper.construct_tournament_map()[match_tournament(search_query.lower())]
+		return scraper.construct_tournament_map()[match_tournament(search_query.lower())]
 	elif input_type == YEAR_TYPE:
-		return YEAR_TYPE, scraper.construct_years_map()[int(search_query)]
+		return scraper.construct_years_map()[search_query]
 	else:
 		return "Input not understood. Please try again."
 
@@ -46,8 +46,11 @@ def sanitize_input(input):
 		return PLAYER_TYPE
 
 def match_tournament(tournament_name):
-	tournament_patterns_map = {r'u[.]?s[.]? open': 'u.s. open', r'wimbledon': 'wimbledon', r'french open|roland garros': 'french open', r'aus(tralian|sie) open': 'australian open'}
+	print("\nSTARTING TOURNAMENT STRING MATCH")
+	tournament_patterns_map = {r'u[.]?s[.]? open': 'U.S. Open', r'wimbledon': 'Wimbledon', r'french open|roland garros': 'French Open', r'aus(tralian|sie) open': 'Australian Open'}
 	for pattern in tournament_patterns_map.keys():
 		if re.fullmatch(pattern, tournament_name):
+			print("\nMATCH FOUND!")
+			print(tournament_patterns_map[pattern])
 			return tournament_patterns_map[pattern]
 	return False
