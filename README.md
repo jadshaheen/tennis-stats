@@ -14,14 +14,14 @@ STEP 3: Convert flask app output to json data like the response of a typical mod
 Planned ETA: 9/1
 COMPLETED as of 9/1 1:52 AM
 
-STEP 4: Add processing for rankings in scraper.py like history processing methods, invoke at /rankings endpoint.
-Planned ETA: 9/2
-
-STEP 5: Build skeleton frontend (react?) which is capable of sending HTTP requests to the flask app.
+STEP 4: Build skeleton frontend (react?) which is capable of sending HTTP requests to the flask app.
 Planned ETA: 9/3
 COMPLETED s of 9/6 12:25 PM
 
-STEP 6: Prettify frontend to have input field and look decent.
+STEP 4.5: Switch to a more object-oriented approach. Have Player objects storing relevant player information, instead of constructing ungodly maps of maps of maps.
+STEP 4.25 create a types.py to house the structs that will power the above.
+
+STEP 5: Prettify frontend to have input field and look decent.
 Planned ETA: 9/5
 
 player output should look like following:
@@ -35,7 +35,9 @@ player output should look like following:
 	us open    | value              | value| value
 
 
-STEP 7: Productionize flask app and add frontend as a page on jadshaheen.com.
+STEP 6: Productionize flask app and add frontend as a page on jadshaheen.com.
 Planned ETA: 9/7
 
 ADD TO THIS FILE UPON COMPLETION OF EACH STEP, WITH COMPLETION DATE AND DESCRIPTION OF THE NEXT STEP
+
+LIVE! at jadshaheen.com/tennis as of Wednesday, September 21 2022 at 3:30 PM PST
