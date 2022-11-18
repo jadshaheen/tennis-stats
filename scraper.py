@@ -11,6 +11,8 @@ from collections import defaultdict
 
 HISTORY_SOURCE = "http://espn.com/tennis/history"
 RANKINGS_SOURCE = "http://espn.com/tennis/rankings"
+WOMENS_HISTORY_SUFFIX = "/_/type/women"
+WOMENS_RANKING_SUFFIX = "/_/type/wta"
 
 @functools.lru_cache(maxsize=2)
 def get_html_data(url):
@@ -40,10 +42,14 @@ def construct_players_map():
 	Each row in the rankings data has the structure: [RANK, DELTA, PLAYER, POINTS, AGE]
 	"""
 	history_html = get_html_data(HISTORY_SOURCE)
+	womens_history_html = get_html_data(HISTORY_SOURCE + WOMENS_HISTORY_SUFFIX)
 	history_data = process_table(history_html)
+	history_data += process_table(womens_history_html)
 
 	rankings_html = get_html_data(RANKINGS_SOURCE)
+	womens_rankings_html = get_html_data(RANKINGS_SOURCE + WOMENS_RANKING_SUFFIX)
 	rankings_data = process_table(rankings_html)
+	rankings_data += process_table(womens_rankings_html)
 
 	player_map = dict()
 
