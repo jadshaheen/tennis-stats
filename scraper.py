@@ -43,19 +43,19 @@ def construct_players_map():
 	"""
 	history_html = get_html_data(HISTORY_SOURCE)
 	womens_history_html = get_html_data(HISTORY_SOURCE + WOMENS_HISTORY_SUFFIX)
-	history_data = process_table(history_html)
-	history_data += process_table(womens_history_html)
+	history_data = process_table(history_html)[2:]
+	history_data += process_table(womens_history_html)[2:]
 
 	rankings_html = get_html_data(RANKINGS_SOURCE)
 	womens_rankings_html = get_html_data(RANKINGS_SOURCE + WOMENS_RANKING_SUFFIX)
-	rankings_data = process_table(rankings_html)
-	rankings_data += process_table(womens_rankings_html)
+	rankings_data = process_table(rankings_html)[2:]
+	rankings_data += process_table(womens_rankings_html)[2:]
 
 	player_map = dict()
 
 	# TODO: Migrate to logic.py module
 	# The first two rows are headings, so we ignore them.
-	for row in history_data[2:]:
+	for row in history_data:
 		year, tourney, winner, runner = row
 		tourney, winner, runner = tourney.lower(), winner.lower(), runner.lower()
 		winning_player = player_map.get(winner) or types.Player(winner)
