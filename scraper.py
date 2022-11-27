@@ -68,7 +68,7 @@ def construct_players_map():
 	# TODO: Migrate to logic.py module
 	# go through rankings data and IF the player already exists in the player_map,
 	# populate that players Age and Rank data.
-	for row in rankings_data[1:]:
+	for row in rankings_data:
 		rank, delta, player, points, age = row
 		player = player.lower()
 		if not player_map.get(player):
