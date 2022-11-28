@@ -12,17 +12,17 @@ RANKINGS_TYPE = "rankings"
 
 def retrieve_search_results(search_query):
 
-	input_type = sanitize_input(search_query.lower())
-	if input_type == PLAYER_TYPE:
-		return PLAYER_TYPE, scraper.construct_players_map()[search_query.lower()]
-	elif input_type == TOURNAMENT_TYPE:
-		return TOURNAMENT_TYPE, scraper.construct_tournament_map()[match_tournament(search_query.lower())]
-	elif input_type == YEAR_TYPE:
-		return YEAR_TYPE, scraper.construct_years_map()[search_query]
-	elif input_type == RANKINGS_TYPE:
-		return RANKINGS_TYPE, scraper.get_rankings_table()
-	else:
-		return "Input not understood. Please try again."
+	if search_query:
+		input_type = sanitize_input(search_query.lower())
+		if input_type == PLAYER_TYPE:
+			return PLAYER_TYPE, scraper.construct_players_map()[search_query.lower()]
+		elif input_type == TOURNAMENT_TYPE:
+			return TOURNAMENT_TYPE, scraper.construct_tournament_map()[match_tournament(search_query.lower())]
+		elif input_type == YEAR_TYPE:
+			return YEAR_TYPE, scraper.construct_years_map()[search_query]
+		elif input_type == RANKINGS_TYPE:
+			return RANKINGS_TYPE, scraper.get_rankings_table()
+	return "Input not understood. Please try again."
 
 
 # def get_history_dataset():
