@@ -48,8 +48,8 @@ def construct_players_map():
 
 	rankings_html = get_html_data(RANKINGS_SOURCE)
 	womens_rankings_html = get_html_data(RANKINGS_SOURCE + WOMENS_RANKING_SUFFIX)
-	rankings_data = process_table(rankings_html)[2:]
-	rankings_data += process_table(womens_rankings_html)[2:]
+	rankings_data = process_table(rankings_html)[1:]
+	rankings_data += process_table(womens_rankings_html)[1:]
 
 	player_map = dict()
 
