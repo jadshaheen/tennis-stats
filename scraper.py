@@ -124,8 +124,10 @@ def get_rankings_table():
 	"""
 	rankings_html = get_html_data(RANKINGS_SOURCE)
 	rankings_data = process_table(rankings_html)
+	womens_rankings_html = get_html_data(RANKINGS_SOURCE + WOMENS_RANKING_SUFFIX)
+	womens_rankings_data = process_table(womens_rankings_html)
 
-	return rankings_data[1:]
+	return rankings_data[1:], womens_rankings_data[1:]
 
 
 # TODO: Migrate to logic.py module
