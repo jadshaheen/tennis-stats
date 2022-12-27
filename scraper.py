@@ -109,14 +109,14 @@ def construct_nested_data_map(outer):
 		if outer == types.Table.YEAR:
 			mens_map[year][tourney] = (winner, runner)
 		elif outer == types.Table.TOURNAMENT:
-			mens_map[tournament][year] = (winner, runner)
+			mens_map[tourney][year] = (winner, runner)
 
 	for row in womens_history_data:
 		year, tourney, winner, runner = row
-		if outer == 'year':
+		if outer == types.Table.YEAR:
 			womens_map[year][tourney] = (winner, runner)
-		elif outer == 'tournament':
-			womens_map[tournament][year] = (winner, runner)
+		elif outer == types.Table.TOURNAMENT:
+			womens_map[tourney][year] = (winner, runner)
 
 	return mens_map, womens_map
 
