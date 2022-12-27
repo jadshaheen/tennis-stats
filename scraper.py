@@ -43,6 +43,7 @@ def construct_players_map():
 	"""
 	history_html = get_html_data(HISTORY_SOURCE)
 	womens_history_html = get_html_data(HISTORY_SOURCE + WOMENS_HISTORY_SUFFIX)
+	# The first two rows are headings, so we ignore them.
 	history_data = process_table(history_html)[2:]
 	history_data += process_table(womens_history_html)[2:]
 
@@ -54,7 +55,6 @@ def construct_players_map():
 	player_map = dict()
 
 	# TODO: Migrate to logic.py module
-	# The first two rows are headings, so we ignore them.
 	for row in history_data:
 		year, tourney, winner, runner = row
 		tourney, winner, runner = tourney.lower(), winner.lower(), runner.lower()
@@ -78,45 +78,48 @@ def construct_players_map():
 
 	return player_map
 
-def construct_tournament_map():
-	"""
-	Returns a mapping of tournmaent to a map of years to (winner, runner-up) tuples.
 
-	The map is of the form: {TOURNAMENT: {YEAR: (WINNER, RUNNER-UP),...},...}
+def construct_nested_data_map(outer):
+	"""
+	Returns a mapping of OUTER data type to a map of INNER data type to (winner, runner-up) tuples.
+
+	The 'outer' parameter can either have the value types.Table.YEAR or types.Table.TOURNAMENT, 
+	leaving inner to implicity be the other. This allows us to either get tournament finalist 
+	pairs grouped by year, or year finalist pairs grouped by tournament, depending on the table 
+	the client has requested.
+
+	if outer is types.Table.YEAR:
+		The map is of the form: {YEAR: {TOURNAMENT: (WINNER, RUNNER-UP),...},...}
+	if outer is types.Table.TOURNAMENT:
+		The map is of the form: {TOURNAMENT: {YEAR: (WINNER, RUNNER-UP),...},...}
 
 	Each row in the data has the structure: [YEAR, TOURNAMENT, WINNER, RUNNER-UP]
 	"""
-	webpage_html = get_html_data(HISTORY_SOURCE)
-	data = process_table(webpage_html)
-
-	tourney_map = defaultdict(dict)
-
+	history_html = get_html_data(HISTORY_SOURCE)
+	womens_history_html = get_html_data(HISTORY_SOURCE + WOMENS_HISTORY_SUFFIX)
 	# The first two rows are headings, so we ignore them.
-	for row in data[2:]:
+	history_data = process_table(history_html)[2:]
+	womens_history_data = process_table(womens_history_html)[2:]
+
+	mens_map = defaultdict(dict)
+	womens_map = defaultdict(dict)
+
+	for row in history_data:
 		year, tourney, winner, runner = row
-		tourney_map[tourney][year] = (winner, runner)
+		if outer == types.Table.YEAR:
+			mens_map[year][tourney] = (winner, runner)
+		elif outer == types.Table.TOURNAMENT:
+			mens_map[tournament][year] = (winner, runner)
 
-	return tourney_map
-
-def construct_years_map():
-	"""
-	Returns a mapping of year to a map of tourneys to (winner, runner-up) tuples.
-
-	The map is of the form: {YEAR: {TOURNAMENT: (WINNER, RUNNER-UP),...},...}
-
-	Each row in the data has the structure: [YEAR, TOURNAMENT, WINNER, RUNNER-UP]
-	"""
-	webpage_html = get_html_data(HISTORY_SOURCE)
-	data = process_table(webpage_html)
-
-	year_map = defaultdict(dict)
-
-	# The first two rows are headings, so we ignore them.
-	for row in data[2:]:
+	for row in womens_history_data:
 		year, tourney, winner, runner = row
-		year_map[year][tourney] = (winner, runner)
+		if outer == 'year':
+			womens_map[year][tourney] = (winner, runner)
+		elif outer == 'tournament':
+			womens_map[tournament][year] = (winner, runner)
 
-	return year_map
+	return mens_map, womens_map
+
 
 def get_rankings_table():
 	"""

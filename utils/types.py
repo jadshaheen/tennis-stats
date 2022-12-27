@@ -5,7 +5,19 @@ A library module containing custom types for use throughout the repo.
 import collections
 import dataclasses
 import typing as t
+from enum import Enum
 from json import JSONEncoder
+
+
+class Table(Enum):
+	'''
+	An Enum to represent the types of Tables we want to retrieve data for.
+	'''
+	PLAYER = "player"
+	TOURNAMENT = "tournament"
+	YEAR = "year"
+	RANKINGS = "rankings"
+
 
 class Player():
 	def __init__(self, name):

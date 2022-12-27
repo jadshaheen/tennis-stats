@@ -4,36 +4,21 @@ The `logic` module houses methods for processing scraped data to send back in th
 
 import re
 import scraper
-
-PLAYER_TYPE = "player"
-TOURNAMENT_TYPE = "tournament"
-YEAR_TYPE = "year"
-RANKINGS_TYPE = "rankings"
+from utils.types import Table
 
 def retrieve_search_results(search_query):
 
 	if search_query:
 		input_type = sanitize_input(search_query.lower())
-		if input_type == PLAYER_TYPE:
-			return PLAYER_TYPE, scraper.construct_players_map()[search_query.lower()]
-		elif input_type == TOURNAMENT_TYPE:
-			return TOURNAMENT_TYPE, scraper.construct_tournament_map()[match_tournament(search_query.lower())]
-		elif input_type == YEAR_TYPE:
-			return YEAR_TYPE, scraper.construct_years_map()[search_query]
-		elif input_type == RANKINGS_TYPE:
-			return RANKINGS_TYPE, scraper.get_rankings_table()
+		if Table(input_type) == Table.PLAYER:
+			return Table.PLAYER.name, scraper.construct_players_map()[search_query.lower()]
+		elif Table(input_type) == Table.TOURNAMENT:
+			return Table.TOURNAMENT.name, scraper.construct_nested_data_map(Table.TOURNAMENT)[match_tournament(search_query.lower())]
+		elif Table(input_type) == Table.YEAR:
+			return Table.YEAR.name, scraper.construct_years_map(Table.YEAR)[search_query]
+		elif Table(input_type) == Table.RANKINGS:
+			return Table.RANKINGS.name, scraper.get_rankings_table()
 	return "Input not understood. Please try again."
-
-
-# def get_history_dataset():
-# 	return scraper.process_table(
-# 		scraper.get_html_data(scraper.HISTORY_SOURCE)
-# 	)
-
-# def get_rankings_dataset():
-# 	return scraper.process_table(
-# 		scraper.get_html_data(scraper.RANKINGS_SOURCE)
-# 	)
 
 
 # method to figure out input type (player name, tournament name or year)
