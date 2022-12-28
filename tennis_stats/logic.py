@@ -14,7 +14,7 @@ def retrieve_search_results(search_query):
 			return Table.PLAYER.name, scraper.construct_players_map()[sanitized_input]
 		elif input_type == Table.TOURNAMENT:
 			mens, womens = scraper.construct_nested_data_map(Table.TOURNAMENT)
-			return Table.TOURNAMENT.name, (mens[match_tournament(sanitized_input)], womens[match_tournament(sanitized_input)])
+			return Table.TOURNAMENT.name, (mens[sanitized_input], womens[sanitized_input])
 		elif input_type == Table.YEAR:
 			mens, womens = scraper.construct_nested_data_map(Table.YEAR)
 			return Table.YEAR.name, (mens[sanitized_input], womens[sanitized_input])
@@ -28,7 +28,7 @@ def retrieve_search_results(search_query):
 def sanitize_input(input):
 	input_type = None
 	sanitized_input = input.lower()
-	matched_tournament = match_tournament(input)
+	matched_tournament = match_tournament(sanitized_input)
 	if re.fullmatch(r'rank(ing[s]?)?', sanitized_input):
 		input_type = Table.RANKINGS
 	elif matched_tournament:
