@@ -4,7 +4,7 @@ The `scraper` module contains methods for retrieving and parsing HTML data from 
 
 import functools
 import requests
-from utils import types
+from tennis_stats.utils import types
 
 from bs4 import BeautifulSoup
 from collections import defaultdict
