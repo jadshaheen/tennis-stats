@@ -14,10 +14,10 @@ def retrieve_search_results(search_query):
 			return Table.PLAYER.name, scraper.construct_players_map()[sanitized_input]
 		elif input_type == Table.TOURNAMENT:
 			mens, womens = scraper.construct_nested_data_map(Table.TOURNAMENT)
-			return Table.TOURNAMENT.name, mens[match_tournament(sanitized_input)], womens[match_tournament(sanitized_input)]
+			return Table.TOURNAMENT.name, (mens[match_tournament(sanitized_input)], womens[match_tournament(sanitized_input)])
 		elif input_type == Table.YEAR:
 			mens, womens = scraper.construct_nested_data_map(Table.YEAR)
-			return Table.YEAR.name, mens[sanitized_input], womens[sanitized_input]
+			return Table.YEAR.name, (mens[sanitized_input], womens[sanitized_input])
 		elif input_type == Table.RANKINGS:
 			return Table.RANKINGS.name, scraper.get_rankings_table()
 	return "Input not understood. Please try again."
