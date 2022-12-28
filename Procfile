@@ -1,1 +1,1 @@
-web: gunicorn platinko:app
+web: gunicorn tennis_stats.application:app
