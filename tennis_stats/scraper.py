@@ -31,6 +31,7 @@ def process_table(webpage):
 		data.append([col.text for col in cols])
 	return data
 
+
 # @functools.lru_cache(maxsize=1)
 def construct_players_map():
 	"""
@@ -149,6 +150,7 @@ def populate_tournament_win(player, year, tournament_name):
 	player.tournaments[tournament_name] = tourney
 	return player
 
+
 # TODO: Migrate to logic.py module
 def populate_tournament_loss(player, year, tournament_name):
 
@@ -170,6 +172,7 @@ def main():
 	years_data = construct_years_map()
 	print("Rafael Nadal French Open Wins: " + str(sum([len(fr["wins"]) for tourney, fr in players_data["Rafael Nadal"].items() if tourney == "French Open"])))
 	return players_data, tournament_data, years_data
+
 
 if __name__ == "__main__":
 	main()

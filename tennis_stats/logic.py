@@ -42,6 +42,7 @@ def sanitize_input(input):
 		input_type = Table.PLAYER
 	return input_type, sanitized_input
 
+
 def match_tournament(tournament_name):
 	tournament_patterns_map = {r'u[.]?s[.]? open': 'U.S. Open', r'wimbledon': 'Wimbledon', r'french open|roland garros': 'French Open', r'aus(tralian|sie) open': 'Australian Open'}
 	for pattern in tournament_patterns_map.keys():
