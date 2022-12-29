@@ -1,6 +1,28 @@
 import pytest
 
 from tennis_stats import logic
+from tennis_stats.utils import types
+
+def test_sanitize_input_name():
+    inp = 'Roger Federer'
+    expected = types.Table.PLAYER, 'roger federer'
+    assert(logic.sanitize_input(inp) == expected)
+
+def test_sanitize_input_rankings():
+    inp = 'Rank'
+    expected = types.Table.RANKINGS, 'rank'
+    assert(logic.sanitize_input(inp) == expected)
+
+def test_sanitize_input_tournament():
+    inp = 'roland garros'
+    expected = types.Table.TOURNAMENT, 'French Open'
+    assert(logic.sanitize_input(inp) == expected)
+
+def test_sanitize_input_year():
+    inp = '2019'
+    expected = types.Table.YEAR, '2019'
+    assert(logic.sanitize_input(inp) == expected)
+
 
 def test_match_tournament_aussie():
     valid_1 = 'aussie open'
