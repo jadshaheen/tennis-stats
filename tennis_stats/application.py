@@ -4,9 +4,9 @@ The flask app.
 This module creates the application and defines the routes.
 """
 
-from tennis_stats import logic
-from tennis_stats import scraper
-from tennis_stats.utils import types
+from tennis_stats.tennis_stats import logic
+from tennis_stats.tennis_stats import scraper
+from tennis_stats.tennis_stats.utils import types
 
 import json
 from flask import Flask

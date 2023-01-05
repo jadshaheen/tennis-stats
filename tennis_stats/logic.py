@@ -3,8 +3,8 @@ The `logic` module houses methods for processing scraped data to send back in th
 """
 
 import re
-from tennis_stats import scraper
-from tennis_stats.utils.types import Table
+from tennis_stats.tennis_stats import scraper
+from tennis_stats.tennis_stats.utils.types import Table
 
 def retrieve_search_results(search_query):
 
