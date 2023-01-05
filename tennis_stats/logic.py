@@ -11,7 +11,13 @@ def retrieve_search_results(search_query):
 	if search_query:
 		input_type, sanitized_input = sanitize_input(search_query)
 		if input_type == Table.PLAYER:
-			return Table.PLAYER.name, scraper.construct_players_map()[sanitized_input]
+			players_map = scraper.construct_players_map()
+			player_info = None
+			try:
+				player_info = players_map[sanitized_input]
+			except KeyError:
+				player_info = {"error": "No player named '" + sanitized_input + "'. Please enter a player who has appeared in at least one Grand Slam Final."}
+			return Table.PLAYER.name, player_info
 		elif input_type == Table.TOURNAMENT:
 			mens, womens = scraper.construct_nested_data_map(Table.TOURNAMENT)
 			return Table.TOURNAMENT.name, (mens[sanitized_input], womens[sanitized_input])

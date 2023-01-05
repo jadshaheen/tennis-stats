@@ -8,11 +8,26 @@ from tennis_stats.tennis_stats.utils import types
 
 from bs4 import BeautifulSoup
 from collections import defaultdict
+import datetime
 
-HISTORY_SOURCE = "http://espn.com/tennis/history"
-RANKINGS_SOURCE = "http://espn.com/tennis/rankings"
-WOMENS_HISTORY_SUFFIX = "/_/type/women"
-WOMENS_RANKING_SUFFIX = "/_/type/wta"
+
+def _add_rankings_suffix():
+    """Workaround for when no rankings data is available at the beginning of the year,
+    which which crashes most of the methods in this module because there is no html
+    table to parse at the rankings webpage. Instead we modify the webpage to the
+    rankings table of the previous year."""
+    rankings_suffix = ""
+    today = datetime.date.today()
+    curr_month, curr_year = today.month, today.year
+    if curr_month == 1:
+        rankings_suffix += "season/" + str(curr_year - 1) + "/"
+    return rankings_suffix
+
+HISTORY_SOURCE = "http://espn.com/tennis/history/_/"
+RANKINGS_SOURCE = "http://espn.com/tennis/rankings/_/" + _add_rankings_suffix()
+WOMENS_HISTORY_SUFFIX = "type/women"
+WOMENS_RANKING_SUFFIX = "type/wta"
+
 
 @functools.lru_cache(maxsize=2)
 def get_html_data(url):
@@ -70,7 +85,11 @@ def construct_players_map():
 	# go through rankings data and IF the player already exists in the player_map,
 	# populate that players Age and Rank data.
 	for row in rankings_data:
-		rank, delta, player, points, age = row
+		if len(row) == 5:
+			rank, delta, player, points, age = row
+		else:
+			rank, player, points = row
+			age = None
 		player = player.lower()
 		if not player_map.get(player):
 			player_map[player] = types.Player(player)
