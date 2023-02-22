@@ -1,4 +1,3 @@
-TEST TEST TEST
 Practicing making a basic python web application.
 
 The end goal is to have a basic website UI that will allow users to enter years, names of players, or names of tournaments and get relevant Grand Slam information for the provided entity. There should be a backend which reads and processes this data from espn.com, and a frontend which makes an API request to the backend to retrieve the data associated with the user input and then displays it on the webpage.
